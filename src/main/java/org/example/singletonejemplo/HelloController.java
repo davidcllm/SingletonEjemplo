@@ -39,7 +39,7 @@ public class HelloController {
             newStage.setScene(scene);
 
             newStage.show();
-            
+
         } catch (IOException e) {
             alerta("Error", "No se pudo cargar la vista de perfil.");
             e.printStackTrace();
