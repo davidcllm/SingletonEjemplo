@@ -4,6 +4,7 @@ public class Usuario {
     public String username, rol, password;
     private static Usuario usuario;
     private Usuario () {
+        this.username = "David";
         this.password = "hola123";
     }
 
