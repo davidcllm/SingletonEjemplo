@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
@@ -17,7 +16,7 @@ public class HelloController {
     @FXML private TextField tfPassword;
 
     @FXML
-    protected void onLogin (ActionEvent event) {
+    protected void onLogin () {
         String usernameValido = Usuario.getInstance().username;
         String username = tfUsername.getText();
 
@@ -34,10 +33,13 @@ public class HelloController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("perfil-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Perfil de Usuario");
-            stage.show();
+
+            Stage newStage = new Stage();
+            newStage.setTitle("Perfil de: " + Usuario.getInstance().username);
+            newStage.setScene(scene);
+
+            newStage.show();
+            
         } catch (IOException e) {
             alerta("Error", "No se pudo cargar la vista de perfil.");
             e.printStackTrace();
