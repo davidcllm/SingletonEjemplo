@@ -1,31 +1,47 @@
 package org.example.singletonejemplo;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+
+import java.io.IOException;
 
 public class HelloController {
     @FXML private TextField tfUsername;
     @FXML private TextField tfPassword;
 
     @FXML
-    protected void onLogin () {
+    protected void onLogin (ActionEvent event) {
         String usernameValido = Usuario.getInstance().username;
         String username = tfUsername.getText();
 
         String passwordValido = Usuario.getInstance().password;
         String password = tfPassword.getText();
 
-        boolean valido = validaciones(usernameValido, username, passwordValido, password);
-        if (valido == false) {
+        if (!validaciones(usernameValido, username, passwordValido, password)) {
             return;
         }
 
         Usuario.getInstance().rol = "Admin";
 
-        System.out.println(Usuario.getInstance().username);
-        System.out.println(Usuario.getInstance().rol);
+        // Cambiar ventana
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("perfil-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Perfil de Usuario");
+            stage.show();
+        } catch (IOException e) {
+            alerta("Error", "No se pudo cargar la vista de perfil.");
+            e.printStackTrace();
+        }
     }
 
     private boolean validaciones(String usernameValido, String username, String passwordValido, String password) {
